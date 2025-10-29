@@ -1,5 +1,6 @@
 from uuid import UUID
 from sqlalchemy import select, update, delete
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.estimate import Estimate, EstimateItem
 
@@ -16,15 +17,29 @@ class SqlAlchemyEstimateRepository:
         for item in items_data:
             self.session.add(EstimateItem(estimate_id=estimate.id, **item))
         await self.session.commit()
-        await self.session.refresh(estimate)
-        return estimate
+        # Return with items eagerly loaded to avoid async lazy-load issues
+        res = await self.session.execute(
+            select(Estimate)
+            .options(selectinload(Estimate.items))
+            .where(Estimate.id == estimate.id)
+        )
+        return res.scalar_one()
 
     async def get_by_id(self, estimate_id: UUID) -> Estimate | None:
-        res = await self.session.execute(select(Estimate).where(Estimate.id == estimate_id))
+        res = await self.session.execute(
+            select(Estimate)
+            .options(selectinload(Estimate.items))
+            .where(Estimate.id == estimate_id)
+        )
         return res.scalar_one_or_none()
 
     async def list(self, limit: int = 50, offset: int = 0):
-        res = await self.session.execute(select(Estimate).offset(offset).limit(limit))
+        res = await self.session.execute(
+            select(Estimate)
+            .options(selectinload(Estimate.items))
+            .offset(offset)
+            .limit(limit)
+        )
         return list(res.scalars())
 
     async def update(self, estimate_id: UUID, **data) -> Estimate | None:

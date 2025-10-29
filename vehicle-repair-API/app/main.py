@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import os
 from app.routers import auth as auth_router
 from app.routers import users as users_router
 from app.routers import vehicles as vehicles_router
@@ -8,9 +9,13 @@ from app.core.db import Base, engine
 
 app = FastAPI(title="Vehicle Repair API")
 
+# Configure CORS to explicit origins to support credentials
+_default_origins = "http://localhost:5173,http://127.0.0.1:5173"
+origins = [o.strip() for o in os.getenv("CORS_ORIGINS", _default_origins).split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

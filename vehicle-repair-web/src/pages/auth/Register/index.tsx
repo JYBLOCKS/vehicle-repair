@@ -44,8 +44,6 @@ const Register = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    e.stopPropagation();
-    e.isDefaultPrevented();
     const { name, value } = e.target;
     setUser((prev) => ({
       ...prev,
@@ -54,13 +52,22 @@ const Register = () => {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.stopPropagation();
-    e.isDefaultPrevented();
+    e.preventDefault();
+    setError("");
+    if (!user.email || !user.name || !user.password) {
+      setError("Some fields are empty");
+      return;
+    }
+    if (user.password.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
     try {
       await register(user.email, user.name, user.password);
       navigate("/login");
-    } catch (e) {
-      setError(`Error ${e}`);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setError(`Auth error: ${msg}`);
     }
   };
 

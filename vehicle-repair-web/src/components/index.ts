@@ -1,2 +1,3 @@
 import NavBar from "./NavBar";
-export { NavBar };
+import AddEstimateDialog from "./AddEstimateDialog";
+export { NavBar, AddEstimateDialog };

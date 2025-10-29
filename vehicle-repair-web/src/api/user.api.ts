@@ -1,13 +1,17 @@
+const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export const login = async (email: string, password: string) => {
   try {
-    const baseUrl = import.meta.env.VITE_API_URL;
+    const data = new URLSearchParams();
+    data.append("username", email);
+    data.append("password", password);
+
     const response = await fetch(`${baseUrl}/auth/login`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      credentials: "include",
-      body: JSON.stringify({ email, password }),
+      body: data.toString(),
     });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -29,13 +33,11 @@ export const register = async (
   password: string
 ) => {
   try {
-    const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
     const response = await fetch(`${baseUrl}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify({ email: email, password: password, name: name }),
     });
 

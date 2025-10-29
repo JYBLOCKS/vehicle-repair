@@ -8,3 +8,7 @@ class TokenOut(BaseModel):
 class LoginIn(BaseModel):
     email: str
     password: str
+
+
+class RefreshIn(BaseModel):
+    refresh_token: str

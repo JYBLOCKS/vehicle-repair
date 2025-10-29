@@ -39,8 +39,6 @@ const Login = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    e.stopPropagation();
-    e.isDefaultPrevented();
     const { name, value } = e.target;
     setUser((prev) => ({
       ...prev,
@@ -48,18 +46,19 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.stopPropagation();
-    e.isDefaultPrevented();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    if (!user.email || !user.password) {
+      setError("Some fields are empty");
+      return;
+    }
     try {
-      //login logic
-      if ((user.email !== "", user.password !== "")) {
-        setError("Some field are empty");
-      }
-      Login(user.email, user.password);
+      await Login(user.email, user.password);
       navigate("/");
-    } catch (e) {
-      setError(`Error ${e}`);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setError(`Auth error: ${msg}`);
     }
   };
 
