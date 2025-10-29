@@ -34,15 +34,3 @@ How to run the project
 • Clear, organized code and a short README with run steps.
 • Docker setup that works on a clean machine.
 • (Optional bonus) Pagination, simple rate-limiting, migrations, React Query, CI, healthcheck.
-
-# Backend how to run
-
-docker build --no-cache -t vehicle-repair-API .
-
-docker run --rm --name vehicle-repair-API-cluster -p 8000:8000 -e DATABASE_URL="sqlite+aiosqlite:///./data/data.db" -v "$(pwd)/data:/app/data" vehicle-repair-API
-
-# Frontend how to run
-
-docker build --no-cache -t vehicle-repair-web .
-
-docker run --rm --name vehicle-repair-web-cluster -p 5173:5173 vehicle-repair-web
