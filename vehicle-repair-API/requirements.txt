@@ -1,0 +1,29 @@
+# --- Runtime (API) ---
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.30
+
+# ORM and async database drivers (SQLite + Postgres)
+SQLAlchemy>=2.0
+aiosqlite>=0.19 # Async SQLite driver (great for local dev)
+typing_extensions
+
+
+# Validation and environment settings
+pydantic>=2.8
+pydantic[email]
+pydantic-settings>=2.4
+
+# File uploads (multipart/form-data)
+python-multipart>=0.0.9
+
+# Security utilities (optional: password hashing, JWTs)
+passlib[bcrypt]>=1.7,<1.8
+# Use a bcrypt version with wheels for Python 3.12
+bcrypt>=4.0.1
+python-jose[cryptography]
+
+# --- Testing ---
+pytest>=8.0
+pytest-asyncio>=0.23
+httpx>=0.27
+anyio>=4.0
