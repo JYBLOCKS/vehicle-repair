@@ -21,7 +21,6 @@ COPY app ./app
 COPY alembic.ini ./
 COPY migrations ./migrations
 
-# Ensure data directory exists for SQLite when using volume
 RUN mkdir -p /app/data
 
 RUN chown -R appuser:appuser /app
