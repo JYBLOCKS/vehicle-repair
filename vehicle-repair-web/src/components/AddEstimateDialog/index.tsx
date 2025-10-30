@@ -246,7 +246,10 @@ export default function AddEstimateDialog({
                   label="Item Kind"
                   value={item.kind}
                   onChange={(e) =>
-                    setItem((it) => ({ ...it, kind: e.target.value as any }))
+                    setItem((it) => ({
+                      ...it,
+                      kind: e.target.value as EstimateItemCreate['kind'],
+                    }))
                   }
                   sx={{ minWidth: 140 }}
                 >

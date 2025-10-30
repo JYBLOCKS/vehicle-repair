@@ -33,8 +33,7 @@ export interface EstimateOut extends Omit<EstimateCreate, "items"> {
   total: number;
 }
 
-const baseUrl =
-  (import.meta as any).env?.VITE_API_URL || "http://localhost:8000";
+const baseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 
 export const listEstimates = async (
   accessToken: string

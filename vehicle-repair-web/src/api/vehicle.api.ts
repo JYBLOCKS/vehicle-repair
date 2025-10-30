@@ -14,7 +14,7 @@ export interface VehicleOut extends VehicleCreate {
   id: string;
 }
 
-const baseUrl = (import.meta as any).env?.VITE_API_URL || "http://localhost:8000";
+const baseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 
 export const createVehicle = async (
   payload: VehicleCreate,

@@ -50,7 +50,7 @@ jobs:
           cache-dependency-path: vehicle-repair-web/package.json
 
       - name: Install
-        run: npm ci || npm install
+        run: npm install
 
       - name: Lint
         run: npm run lint --if-present
