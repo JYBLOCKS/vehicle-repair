@@ -11,6 +11,10 @@ phases:
       - pip install --upgrade pip
       - node --version
       - npm --version
+      - echo Enabling Corepack and pnpm
+      - corepack enable
+      - corepack prepare pnpm@9 --activate
+      - pnpm --version
 
   pre_build:
     commands:
@@ -20,7 +24,7 @@ phases:
       - cd ..
       - echo Installing Web dependencies
       - cd vehicle-repair-web
-      - npm ci || npm install
+      - pnpm install --frozen-lockfile || (echo "pnpm failed, falling back to npm" && npm ci || npm install)
       - cd ..
 
   build:
@@ -31,9 +35,9 @@ phases:
       - cd ..
       - echo Linting, testing and building Web
       - cd vehicle-repair-web
-      - npm run lint --if-present || echo "Lint step reported issues; continuing"
-      - npm test --if-present -- --run
-      - npm run build
+      - pnpm run lint --if-present || echo "Lint step reported issues; continuing"
+      - pnpm test --if-present -- --run
+      - pnpm run build
       - cd ..
 
 artifacts:
