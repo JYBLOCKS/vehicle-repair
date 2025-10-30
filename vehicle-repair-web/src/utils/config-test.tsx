@@ -1,6 +1,7 @@
 import { queries, render, type RenderOptions } from "@testing-library/react";
 import type { ReactNode } from "react";
 //styles
+import { BrowserRouter } from "react-router";
 import { AuthContextProvider } from "../middlewares/AuthContext";
 import { AppThemeProvider } from "../theme/ThemeProvider";
 
@@ -8,7 +9,9 @@ import { AppThemeProvider } from "../theme/ThemeProvider";
 const AllTheProviders = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContextProvider>
-      <AppThemeProvider>{children}</AppThemeProvider>
+      <BrowserRouter>
+        <AppThemeProvider>{children}</AppThemeProvider>
+      </BrowserRouter>
     </AuthContextProvider>
   );
 };

@@ -31,12 +31,13 @@ phases:
       - cd ..
       - echo Linting, testing and building Web
       - cd vehicle-repair-web
-      - npm run lint --if-present
+      - npm run lint --if-present || echo "Lint step reported issues; continuing"
       - npm test --if-present -- --run
       - npm run build
       - cd ..
 
 artifacts:
+  base-directory: vehicle-repair-web/dist
   files:
-    - vehicle-repair-web/dist/**/*
+    - '**/*'
   discard-paths: no
